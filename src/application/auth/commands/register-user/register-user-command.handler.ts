@@ -7,5 +7,10 @@ export class RegisterUserCommandHandler
 {
   constructor() {}
 
-  async execute({ email, password }: RegisterUserCommand): Promise<any> {}
+  async execute({
+    email,
+    password,
+    firstName,
+    lastName,
+  }: RegisterUserCommand): Promise<any> {}
 }

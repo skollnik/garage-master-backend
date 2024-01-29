@@ -1,6 +1,6 @@
 import { User } from '../model/user';
 
-export interface IUserInterface {
+export interface IUserRepository {
   create(user: User): Promise<User>;
   findById(userId: number): Promise<User>;
 }
