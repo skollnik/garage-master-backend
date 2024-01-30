@@ -31,4 +31,13 @@ export class UserRepository implements IUserRepository {
 
     return this.mapperFactory.fromEntity(userEntity);
   }
+
+  async findByEmail(email: string): Promise<User> {
+    const userEntity = await this.prisma.userEntity.findUnique({
+      where: { email },
+    });
+    if (!userEntity) return null;
+
+    return this.mapperFactory.fromEntity(userEntity);
+  }
 }
