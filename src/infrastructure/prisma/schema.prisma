@@ -18,7 +18,13 @@ model UserEntity {
   password  String
 }
 
+<<<<<<< Updated upstream
 model ImageEntity {
   id Int @id @default(autoincrement())
   imgUrl String 
 }
+=======
+//picture
+
+//service type
+>>>>>>> Stashed changes

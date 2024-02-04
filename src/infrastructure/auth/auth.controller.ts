@@ -1,19 +1,25 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
+  Req,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
-import { DomainErrorFilter } from '../error-handling/domain-error.filter';
 import { CommandBus } from '@nestjs/cqrs';
-import { RegisterUserDto } from './dtos/register-user.dto';
-import { RegisterUserCommand } from 'src/application/auth/commands/register-user/register-user.command';
-import { UserRegisteredPresenter } from './presenters/user-registered.presenter';
 import { LoginCommand } from 'src/application/auth/commands/login/login.command';
-import { LoggedInPresenter } from './presenters/logged-in.presenter';
+import { RegisterUserCommand } from 'src/application/auth/commands/register-user/register-user.command';
+import { DomainErrorFilter } from '../error-handling/domain-error.filter';
 import { LoginDto } from './dtos/login.dto';
+import { RegisterUserDto } from './dtos/register-user.dto';
+import { JwtGuard } from './guards/jwt.guard';
+import { LoggedInPresenter } from './presenters/logged-in.presenter';
+import { ProfilePresenter } from './presenters/profile.presenter';
+import { UserRegisteredPresenter } from './presenters/user-registered.presenter';
+import { ReqWithUser } from './types/req-with-user';
 
 @Controller('auth')
 @UseFilters(DomainErrorFilter)
@@ -38,5 +44,11 @@ export class AuthController {
     );
 
     return new UserRegisteredPresenter(user);
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('/me')
+  async getProfile(@Req() { user }: ReqWithUser) {
+    return new ProfilePresenter(user);
   }
 }
