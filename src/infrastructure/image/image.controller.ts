@@ -7,9 +7,9 @@ import {
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ImagePresenter } from './presenters/image.presenter';
-import { GetAllImagesQuery } from 'src/application/gallery/queries/get-all-images/get-all-images.query';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateImageCommand } from 'src/application/gallery/commands/create-image/create-image.command';
+import { GetAllImagesQuery } from 'src/application/image/queries/get-all-images/get-all-images.query';
+import { CreateImageCommand } from 'src/application/image/commands/create-image/create-image.command';
 
 @Controller('image')
 export class ImageController {

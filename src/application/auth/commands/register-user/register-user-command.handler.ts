@@ -5,6 +5,7 @@ import { HASHING_SERVICE, USER_REPOSITORY } from '../../auth.constants';
 import { IUserRepository } from 'src/domain/auth/interfaces/user.interface';
 import { IHashingService } from '../../interfaces/hashing-service.interface';
 import { User } from 'src/domain/auth/model/user';
+import { EmailAlreadyTakenException } from 'src/domain/auth/exceptions/email-already-taken.exception';
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserCommandHandler
@@ -22,6 +23,8 @@ export class RegisterUserCommandHandler
     firstName,
     lastName,
   }: RegisterUserCommand): Promise<any> {
+    const userExist = await this.userRepository.findByEmail(email);
+    if (userExist) throw new EmailAlreadyTakenException();
     const hashedPassword = await this.hashingService.hashPassword(password);
     const user = User.create({
       firstName,

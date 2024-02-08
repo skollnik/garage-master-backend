@@ -6,8 +6,8 @@ import {
   CLOUDINARY_API_SECRET,
   CLOUDINARY_CLOUD_NAME,
 } from './image-upload.constants';
-import { v2, UploadApiResponse, UploadApiErrorResponse } from 'cloudinary';
 import toStream = require('buffer-to-stream');
+import { UploadApiErrorResponse, UploadApiResponse, v2 } from 'cloudinary';
 
 @Injectable()
 export class CloudinaryService implements IImageUploadService {

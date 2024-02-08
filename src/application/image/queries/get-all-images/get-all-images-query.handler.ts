@@ -1,8 +1,8 @@
-import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
-import { GetAllImagesQuery } from "./get-all-images.query";
-import { IImageRepository } from "src/domain/image/interfaces/image-repository.interface";
 import { Inject } from "@nestjs/common";
+import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
+import { IImageRepository } from "src/domain/image/interfaces/image-repository.interface";
 import { IMAGE_REPOSITORY } from "../../image.constants";
+import { GetAllImagesQuery } from "./get-all-images.query";
 
 @QueryHandler(GetAllImagesQuery)
 export class GetAllImagesQueryHandler
@@ -14,7 +14,7 @@ export class GetAllImagesQueryHandler
   ) {}
 
   async execute(): Promise<any> {
-    const image = await this.imageRepository.findAll();
-    return image;
+    const images = await this.imageRepository.findAll();
+    return images;
   }
 }

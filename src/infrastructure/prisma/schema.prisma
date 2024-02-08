@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:@localhost:3307/garage-master"
+  url      = "mysql://root:@localhost:3306/garage-master"
 }
 
 model UserEntity {
@@ -18,13 +18,13 @@ model UserEntity {
   password  String
 }
 
-<<<<<<< Updated upstream
 model ImageEntity {
-  id Int @id @default(autoincrement())
-  imgUrl String 
+  id     Int    @id @default(autoincrement())
+  imgUrl String
 }
-=======
-//picture
 
-//service type
->>>>>>> Stashed changes
+model ServiceTypeEntity {
+  id          Int    @id @default(autoincrement())
+  category String
+  duration    Int
+}
