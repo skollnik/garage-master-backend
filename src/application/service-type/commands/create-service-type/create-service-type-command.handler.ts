@@ -18,7 +18,7 @@ export class CreateServiceTypeCommandHandler
   async execute({
     category,
     duration,
-  }: CreateServiceTypeCommand): Promise<any> {
+  }: CreateServiceTypeCommand): Promise<ServiceType> {
     const serviceType = ServiceType.create({ category, duration });
     const createdServiceType = this.eventPublisher.mergeObjectContext(
       await this.serviceTypeRepository.create(serviceType),

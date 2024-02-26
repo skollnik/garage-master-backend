@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { BaseException } from 'src/application/shared/base.exception';
+import { AppointmentAlreadyTakenException } from 'src/domain/appointment/exceptions/appointment-already-taken.exception';
 import { EmailAlreadyTakenException } from 'src/domain/auth/exceptions/email-already-taken.exception';
 import { InvalidCredentialsException } from 'src/domain/auth/exceptions/invalid-credentials.exception';
 
@@ -21,6 +22,9 @@ export class DomainErrorFilter implements ExceptionFilter<BaseException> {
 
     if (exception instanceof InvalidCredentialsException)
       return this.sendErrorResponse(resp, HttpStatus.UNAUTHORIZED, message);
+
+    if (exception instanceof AppointmentAlreadyTakenException)
+      return this.sendErrorResponse(resp, HttpStatus.CONFLICT, message);
   }
 
   private sendErrorResponse(resp: Response, status: number, message: string) {

@@ -1,12 +1,21 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { NewServiceTypeDto } from './dtos/new-service-type.dto';
 import { CreateServiceTypeCommand } from 'src/application/service-type/commands/create-service-type/create-service-type.command';
 import { ServiceTypePresenter } from './presenters/service-type.presenter';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { GetAllServiceTypesQuery } from 'src/application/service-type/queries/get-all-service-types/get-all-service-types.query';
+import { DomainErrorFilter } from '../error-handling/domain-error.filter';
 
 @Controller('service-type')
+@UseFilters(DomainErrorFilter)
 export class ServiceTypeController {
   constructor(
     private readonly commandBus: CommandBus,

@@ -22,7 +22,7 @@ export class RegisterUserCommandHandler
     password,
     firstName,
     lastName,
-  }: RegisterUserCommand): Promise<any> {
+  }: RegisterUserCommand): Promise<User> {
     const userExist = await this.userRepository.findByEmail(email);
     if (userExist) throw new EmailAlreadyTakenException();
     const hashedPassword = await this.hashingService.hashPassword(password);

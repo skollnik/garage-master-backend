@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   UploadedFile,
+  UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -10,8 +11,10 @@ import { ImagePresenter } from './presenters/image.presenter';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { GetAllImagesQuery } from 'src/application/image/queries/get-all-images/get-all-images.query';
 import { CreateImageCommand } from 'src/application/image/commands/create-image/create-image.command';
+import { DomainErrorFilter } from '../error-handling/domain-error.filter';
 
 @Controller('image')
+@UseFilters(DomainErrorFilter)
 export class ImageController {
   constructor(
     private readonly commandBus: CommandBus,

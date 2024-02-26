@@ -19,7 +19,7 @@ export class CreateImageCommandHandler
     @Inject(IMAGE_UPLOAD_SERVICE)
     private readonly imageUploadService: IImageUploadService,
   ) {}
-  async execute({ file }: CreateImageCommand): Promise<any> {
+  async execute({ file }: CreateImageCommand): Promise<Image> {
     const uploadedImage = await this.imageUploadService
       .uploadImage(file)
       .catch(() => {

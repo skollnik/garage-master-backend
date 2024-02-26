@@ -23,8 +23,28 @@ model ImageEntity {
   imgUrl String
 }
 
+model CarEntity {
+  id                Int                 @id @default(autoincrement())
+  model             String
+  AppointmentEntity AppointmentEntity[]
+}
+
+model AppointmentEntity {
+  id             Int               @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  carId          Int
+  car            CarEntity         @relation(fields: [carId], references: [id])
+  serviceTypeId  Int
+  serviceType    ServiceTypeEntity @relation(fields: [serviceTypeId], references: [id])
+  startDate      DateTime
+  endDate        DateTime
+  additionalInfo String?
+}
+
 model ServiceTypeEntity {
-  id          Int    @id @default(autoincrement())
-  category String
-  duration    Int
+  id                Int                 @id @default(autoincrement())
+  category          String
+  duration          Int
+  AppointmentEntity AppointmentEntity[]
 }
