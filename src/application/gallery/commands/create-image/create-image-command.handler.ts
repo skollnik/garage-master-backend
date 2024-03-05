@@ -19,14 +19,10 @@ export class CreateImageCommandHandler
     @Inject(GALLERY_SERVICE)
     private readonly galleryService: IGalleryService,
   ) {}
-  async execute({ file }: CreateImageCommand): Promise<Image> {
-    const uploadedImage = await this.galleryService
-      .uploadImage(file)
-      .catch(() => {
-        throw new InvalidFileTypeException();
-      });
+  async execute({ file, folder }: CreateImageCommand): Promise<Image> {
+    const uploadedImage = await this.galleryService.uploadImage(file, folder);
 
-      const image = Image.create({
+    const image = Image.create({
       imgUrl: uploadedImage.url,
     });
 

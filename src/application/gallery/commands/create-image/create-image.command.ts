@@ -1,3 +1,6 @@
 export class CreateImageCommand {
-  constructor(public readonly file: Express.Multer.File) {}
+  constructor(
+    public readonly file: Express.Multer.File,
+    public readonly folder: string,
+  ) {}
 }

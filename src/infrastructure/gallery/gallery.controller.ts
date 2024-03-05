@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  FileTypeValidator,
   Get,
+  MaxFileSizeValidator,
+  ParseFilePipe,
   Post,
   UploadedFile,
   UseFilters,
@@ -60,10 +63,20 @@ export class GalleryController {
   @UseInterceptors(FileInterceptor('file'))
   @Post()
   async newImage(
-    @UploadedFile()
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 5000000 }),
+          new FileTypeValidator({ fileType: 'image' }),
+        ],
+      }),
+    )
     file: Express.Multer.File,
+    @Body() { folder }: { folder: string },
   ) {
-    const image = await this.commandBus.execute(new CreateImageCommand(file));
+    const image = await this.commandBus.execute(
+      new CreateImageCommand(file, folder),
+    );
     return new ImagePresenter(image);
   }
 }

@@ -25,10 +25,11 @@ export class CloudinaryService implements IGalleryService {
 
   async uploadImage(
     file: Express.Multer.File,
+    folder: string,
   ): Promise<UploadApiResponse | UploadApiErrorResponse> {
     return new Promise((resolve, reject) => {
       const upload = v2.uploader.upload_stream(
-        { folder: 'Garage Master' },
+        { folder: `Garage Master/${folder}` },
         (error, result) => {
           if (error) return reject(error);
           resolve(result);
