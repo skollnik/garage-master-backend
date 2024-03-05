@@ -1,21 +1,21 @@
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { IImageRepository } from 'src/domain/image/interfaces/image-repository.interface';
-import { IMAGE_REPOSITORY } from '../../image.constants';
+import { IGalleryRepository } from 'src/domain/gallery/interfaces/gallery-repository.interface';
+import { Image } from 'src/domain/gallery/model/image';
+import { GALLERY_REPOSITORY } from '../../gallery.constants';
 import { GetAllImagesQuery } from './get-all-images.query';
-import { Image } from 'src/domain/image/model/image';
 
 @QueryHandler(GetAllImagesQuery)
 export class GetAllImagesQueryHandler
   implements IQueryHandler<GetAllImagesQuery>
 {
   constructor(
-    @Inject(IMAGE_REPOSITORY)
-    private readonly imageRepository: IImageRepository,
+    @Inject(GALLERY_REPOSITORY)
+    private readonly galleryRepository: IGalleryRepository,
   ) {}
 
   async execute(): Promise<Image[]> {
-    const images = await this.imageRepository.findAll();
+    const images = await this.galleryRepository.findAll();
     return images;
   }
 }

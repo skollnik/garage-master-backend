@@ -81,6 +81,7 @@ export class AppointmentRepository implements IAppointmentRepository {
         ],
       },
       include: { car: true, serviceType: true },
+      orderBy: { startDate: 'asc' },
     });
 
     return appointmentsForDay.map((appointment) =>

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { IImageRepository } from 'src/domain/image/interfaces/image-repository.interface';
+import { IGalleryRepository } from 'src/domain/gallery/interfaces/gallery-repository.interface';
 import { ImageMapperFactory } from '../factories/image-mapper.factory';
 import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
-import { Image } from 'src/domain/image/model/image';
+import { Image } from 'src/domain/gallery/model/image';
 
 @Injectable()
-export class ImageRepository implements IImageRepository {
+export class GalleryRepository implements IGalleryRepository {
   constructor(
     private readonly prisma: PrismaService,
     private readonly imageMapperFactory: ImageMapperFactory,

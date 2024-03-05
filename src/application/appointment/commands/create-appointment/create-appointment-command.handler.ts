@@ -29,10 +29,11 @@ export class CreateAppointmentCommandHandler
       .add(2, 'hour')
       .toDate();
     const endDate = new Date(formattedStartDate);
+    const hours = Math.floor(serviceType.duration);
+    const minutes = Math.round((serviceType.duration - hours) * 60);
     const formattedEndDate = moment(endDate, 'YYYY-MM-DD HH:mm:ss').toDate();
-    formattedEndDate.setHours(
-      formattedEndDate.getHours() + serviceType.duration,
-    );
+    formattedEndDate.setHours(formattedEndDate.getHours() + hours);
+    formattedEndDate.setMinutes(formattedEndDate.getMinutes() + minutes);
     formattedEndDate.setSeconds(formattedEndDate.getSeconds() - 1);
     const isAvailable = await this.appointmentRepository.checkAvailability(
       formattedStartDate,
