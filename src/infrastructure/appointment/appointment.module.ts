@@ -8,8 +8,12 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { AppointmentController } from './appointment.controller';
 import { CreateAppointmentCommandHandler } from 'src/application/appointment/commands/create-appointment/create-appointment-command.handler';
 import { GetAppointmentsForDayQueryHandler } from 'src/application/appointment/queries/get-all-appointments-for-day/get-all-appointments-for-day-query.handler';
+import { EditAppointmentCommandHandler } from 'src/application/appointment/commands/edit-appointment/edit-appointment-command.handler';
 
-const commandHandlers = [CreateAppointmentCommandHandler];
+const commandHandlers = [
+  CreateAppointmentCommandHandler,
+  EditAppointmentCommandHandler,
+];
 
 const queries: Provider[] = [GetAppointmentsForDayQueryHandler];
 

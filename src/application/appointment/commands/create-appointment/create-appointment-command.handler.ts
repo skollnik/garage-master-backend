@@ -6,6 +6,8 @@ import { IAppointmentRepository } from 'src/domain/appointment/interfaces/appoin
 import { Appointment } from 'src/domain/appointment/model/appointment';
 import { APPOINTMENT_REPOSITORY } from '../../appointment.constants';
 import { CreateAppointmentCommand } from './create-appointment.command';
+import { AppointmentStatus } from 'src/domain/appointment/appointment-status.enum';
+import { ServiceType } from 'src/domain/service-type/model/service-type';
 
 @CommandHandler(CreateAppointmentCommand)
 export class CreateAppointmentCommandHandler
@@ -22,19 +24,15 @@ export class CreateAppointmentCommandHandler
     lastName,
     car,
     serviceType,
+    email,
     startDate,
+    status,
     additionalInfo,
   }: CreateAppointmentCommand): Promise<Appointment> {
-    const formattedStartDate = moment(startDate, 'YYYY-MM-DD HH:mm:ss')
-      .add(2, 'hour')
-      .toDate();
-    const endDate = new Date(formattedStartDate);
-    const hours = Math.floor(serviceType.duration);
-    const minutes = Math.round((serviceType.duration - hours) * 60);
-    const formattedEndDate = moment(endDate, 'YYYY-MM-DD HH:mm:ss').toDate();
-    formattedEndDate.setHours(formattedEndDate.getHours() + hours);
-    formattedEndDate.setMinutes(formattedEndDate.getMinutes() + minutes);
-    formattedEndDate.setSeconds(formattedEndDate.getSeconds() - 1);
+    const { formattedStartDate, formattedEndDate } = formatDates(
+      startDate,
+      serviceType,
+    );
     const isAvailable = await this.appointmentRepository.checkAvailability(
       formattedStartDate,
       formattedEndDate,
@@ -42,13 +40,16 @@ export class CreateAppointmentCommandHandler
     if (!isAvailable) {
       throw new AppointmentAlreadyTakenException();
     }
+
     const appointment = Appointment.create({
       firstName,
       lastName,
       car,
       serviceType,
+      email,
       startDate: formattedStartDate,
       endDate: formattedEndDate,
+      status,
       additionalInfo,
     });
     const createdAppointment = this.eventPublisher.mergeObjectContext(
@@ -59,3 +60,18 @@ export class CreateAppointmentCommandHandler
     return createdAppointment;
   }
 }
+
+const formatDates = (startDate: Date, serviceType: ServiceType) => {
+  const formattedStartDate = moment(startDate, 'YYYY-MM-DD HH:mm:ss')
+    .add(2, 'hour')
+    .toDate();
+  const endDate = new Date(formattedStartDate);
+  const hours = Math.floor(serviceType.duration);
+  const minutes = Math.round((serviceType.duration - hours) * 60);
+  const formattedEndDate = moment(endDate, 'YYYY-MM-DD HH:mm:ss').toDate();
+  formattedEndDate.setHours(formattedEndDate.getHours() + hours);
+  formattedEndDate.setMinutes(formattedEndDate.getMinutes() + minutes);
+  formattedEndDate.setSeconds(formattedEndDate.getSeconds() - 1);
+
+  return { formattedStartDate, formattedEndDate };
+};

@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
   async validate({ id }: TokenPayload) {
-    const user = this.userRepository.findById(id);
+    const user = await this.userRepository.findById(id);
     if (!user) throw new UnauthorizedException();
     return user;
   }

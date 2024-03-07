@@ -7,6 +7,7 @@ import {
 import { Response } from 'express';
 import { BaseException } from 'src/application/shared/base.exception';
 import { AppointmentAlreadyTakenException } from 'src/domain/appointment/exceptions/appointment-already-taken.exception';
+import { AppointmentNotFoundException } from 'src/domain/appointment/exceptions/appointment-not-found.exception';
 import { EmailAlreadyTakenException } from 'src/domain/auth/exceptions/email-already-taken.exception';
 import { InvalidCredentialsException } from 'src/domain/auth/exceptions/invalid-credentials.exception';
 
@@ -25,6 +26,9 @@ export class DomainErrorFilter implements ExceptionFilter<BaseException> {
 
     if (exception instanceof AppointmentAlreadyTakenException)
       return this.sendErrorResponse(resp, HttpStatus.CONFLICT, message);
+
+    if (exception instanceof AppointmentNotFoundException)
+      return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
   }
 
   private sendErrorResponse(resp: Response, status: number, message: string) {

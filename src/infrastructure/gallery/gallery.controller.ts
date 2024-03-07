@@ -8,6 +8,7 @@ import {
   Post,
   UploadedFile,
   UseFilters,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -22,6 +23,7 @@ import { NewFolderDto } from './dtos/new-folder.dto';
 import { FolderPresenter } from './presenters/folder.presenter';
 import { ImagePresenter } from './presenters/image.presenter';
 import { GetImagesByFolderDto } from './dtos/get-images-by-folder.dto';
+import { JwtGuard } from '../auth/guards/jwt.guard';
 
 @Controller('gallery')
 @UseFilters(DomainErrorFilter)
@@ -44,6 +46,7 @@ export class GalleryController {
     return folders.map((folder) => new FolderPresenter(folder));
   }
 
+  @UseGuards(JwtGuard)
   @Post('folder')
   async createFolder(@Body() { name }: NewFolderDto) {
     await this.commandBus.execute(new CreateFolderCommand(name));
@@ -60,6 +63,7 @@ export class GalleryController {
     return images.map((image) => new ImagePresenter({ imgUrl: image.url }));
   }
 
+  @UseGuards(JwtGuard)
   @UseInterceptors(FileInterceptor('file'))
   @Post()
   async newImage(

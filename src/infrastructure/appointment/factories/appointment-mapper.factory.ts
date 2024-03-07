@@ -3,6 +3,7 @@ import {
   CarEntity,
   ServiceTypeEntity,
 } from '@prisma/client';
+import { AppointmentStatus } from 'src/domain/appointment/appointment-status.enum';
 import { Appointment } from 'src/domain/appointment/model/appointment';
 import { Car } from 'src/domain/appointment/model/car';
 import { ServiceType } from 'src/domain/service-type/model/service-type';
@@ -11,14 +12,22 @@ import { IEntityMapperFactory } from 'src/infrastructure/shared/interfaces/entit
 export class AppointmentMapperFactory
   implements IEntityMapperFactory<AppointmentEntity, Appointment>
 {
+  appointmentStatus = {
+    PENDING: AppointmentStatus.PENDING,
+    CONFIRMED: AppointmentStatus.CONFIRMED,
+    CANCELED: AppointmentStatus.CANCELED,
+  };
+
   fromEntity({
     id,
     firstName,
     lastName,
     car,
     serviceType,
+    email,
     startDate,
     endDate,
+    status,
     additionalInfo,
   }: AppointmentEntity & {
     serviceType?: ServiceTypeEntity;
@@ -43,8 +52,10 @@ export class AppointmentMapperFactory
       lastName,
       car: carMapped,
       serviceType: serviceTypeMapped,
+      email,
       startDate,
       endDate,
+      status: this.appointmentStatus[status],
       additionalInfo,
     });
   }
