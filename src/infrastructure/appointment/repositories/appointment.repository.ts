@@ -64,12 +64,13 @@ export class AppointmentRepository implements IAppointmentRepository {
   }
 
   async findById(id: number): Promise<Appointment> {
-    const appointment = await this.prisma.appointmentEntity.findUnique({
+    const appointmentEntity = await this.prisma.appointmentEntity.findUnique({
       where: { id },
       include: { car: true, serviceType: true },
     });
+    if (!appointmentEntity) return null;
 
-    return this.appointmentMapperFactory.fromEntity(appointment);
+    return this.appointmentMapperFactory.fromEntity(appointmentEntity);
   }
 
   async checkAvailability(startDate: Date, endDate: Date): Promise<boolean> {

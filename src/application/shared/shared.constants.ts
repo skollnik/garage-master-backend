@@ -1,1 +1,2 @@
 export const GALLERY_SERVICE = 'GALLERY_SERVICE';
+export const EMAIL_SERVICE = 'EMAIL_SERVICE';
