@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  ParseIntPipe,
   Post,
   UseFilters,
   UseGuards,
@@ -13,6 +16,7 @@ import { ServiceTypePresenter } from './presenters/service-type.presenter';
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { GetAllServiceTypesQuery } from 'src/application/service-type/queries/get-all-service-types/get-all-service-types.query';
 import { DomainErrorFilter } from '../error-handling/domain-error.filter';
+import { DeleteServiceTypeCommand } from 'src/application/service-type/commands/delete-service-type/delete-service-type.command';
 
 @Controller('service-type')
 @UseFilters(DomainErrorFilter)
@@ -39,5 +43,12 @@ export class ServiceTypeController {
       new CreateServiceTypeCommand(category, duration),
     );
     return new ServiceTypePresenter(serviceType);
+  }
+
+  @UseGuards(JwtGuard)
+  @Delete(':id')
+  async deleteServiceType(@Param('id', ParseIntPipe) id: number) {
+    await this.commandBus.execute(new DeleteServiceTypeCommand(id));
+    return { message: 'Service type deleted successfully' };
   }
 }

@@ -26,4 +26,19 @@ export class ServiceTypeRepository implements IServiceTypeRepository {
       this.serviceTypeMapperFactory.fromEntity(serviceType),
     );
   }
+
+  async findById(id: number): Promise<ServiceType> {
+    const serviceTypeEntity = await this.prisma.serviceTypeEntity.findUnique({
+      where: { id },
+    });
+    if (!serviceTypeEntity) return null;
+
+    return this.serviceTypeMapperFactory.fromEntity(serviceTypeEntity);
+  }
+
+  async delete(id: number): Promise<void> {
+    const serviceType = await this.prisma.serviceTypeEntity.delete({
+      where: { id },
+    });
+  }
 }

@@ -8,10 +8,18 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { ServiceTypeMapperFactory } from './factories/service-type-mapper.factory';
 import { ServiceTypeRepository } from './repositories/service-type.repository';
 import { ServiceTypeController } from './service-type.controller';
+import { GetServiceTypeQueryHandler } from 'src/application/service-type/queries/get-service-type/get-service-type-query.handler';
+import { DeleteServiceTypeCommandHandler } from 'src/application/service-type/commands/delete-service-type/delete-service-type-command.handler';
 
-const commandHandlers: Provider[] = [CreateServiceTypeCommandHandler];
+const commandHandlers: Provider[] = [
+  CreateServiceTypeCommandHandler,
+  DeleteServiceTypeCommandHandler,
+];
 
-const queries: Provider[] = [GetAllServiceTypesQueryHandler];
+const queries: Provider[] = [
+  GetAllServiceTypesQueryHandler,
+  GetServiceTypeQueryHandler,
+];
 
 const providers: Provider[] = [
   {

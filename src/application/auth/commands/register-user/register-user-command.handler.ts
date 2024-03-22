@@ -36,7 +36,6 @@ export class RegisterUserCommandHandler
       await this.userRepository.create(user),
     );
 
-    createdUser.commit();
     return createdUser;
   }
 }

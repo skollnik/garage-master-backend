@@ -1,3 +1,3 @@
 export class GetImagesByFolderQuery {
-  constructor(public readonly folder: string) {}
+  constructor(public readonly folderId: number) {}
 }

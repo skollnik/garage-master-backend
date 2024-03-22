@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { IGalleryRepository } from 'src/domain/gallery/interfaces/gallery-repository.interface';
-import { Image } from 'src/domain/gallery/model/image';
+import { Media } from 'src/domain/gallery/model/media';
 import { GALLERY_REPOSITORY } from '../../gallery.constants';
 import { GetAllImagesQuery } from './get-all-images.query';
 
@@ -14,7 +14,7 @@ export class GetAllImagesQueryHandler
     private readonly galleryRepository: IGalleryRepository,
   ) {}
 
-  async execute(): Promise<Image[]> {
+  async execute(): Promise<Media[]> {
     const images = await this.galleryRepository.findAll();
     return images;
   }

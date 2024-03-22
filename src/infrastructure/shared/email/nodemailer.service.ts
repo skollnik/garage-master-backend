@@ -114,8 +114,6 @@ export class NodemailerService implements IEmailService {
     try {
       const result = await transporter.sendMail(options);
       return result;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 }

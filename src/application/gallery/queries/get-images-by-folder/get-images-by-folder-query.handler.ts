@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { IGalleryService } from 'src/application/shared/interfaces/gallery-service.interface';
-import { GALLERY_SERVICE } from 'src/application/shared/shared.constants';
+import { IGalleryRepository } from 'src/domain/gallery/interfaces/gallery-repository.interface';
+import { GALLERY_REPOSITORY } from '../../gallery.constants';
 import { GetImagesByFolderQuery } from './get-images-by-folder.query';
 
 @QueryHandler(GetImagesByFolderQuery)
@@ -9,12 +9,12 @@ export class GetImagesByFolderQueryHandler
   implements IQueryHandler<GetImagesByFolderQuery>
 {
   constructor(
-    @Inject(GALLERY_SERVICE) private readonly galleryService: IGalleryService,
+    @Inject(GALLERY_REPOSITORY) private readonly galleryRepository: IGalleryRepository,
   ) {}
 
-  async execute({ folder }: GetImagesByFolderQuery): Promise<any> {
-    const images = await this.galleryService.getAllImagesByFolder(folder);
+  async execute({ folderId }: GetImagesByFolderQuery): Promise<any> {
+    const images = await this.galleryRepository.getAllImagesByFolder(folderId);
 
-    return images.resources;
+    return images;
   }
 }

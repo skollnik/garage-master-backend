@@ -23,8 +23,23 @@ export class CloudinaryService implements IGalleryService {
     });
   }
 
+  async uploadVideo(
+    video: Express.Multer.File,
+  ): Promise<UploadApiResponse | UploadApiErrorResponse> {
+    return new Promise((resolve, reject) => {
+      const upload = v2.uploader.upload_stream(
+        { folder: 'Video', resource_type: 'video' },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        },
+      );
+      toStream(video.buffer).pipe(upload);
+    });
+  }
+
   async uploadImage(
-    file: Express.Multer.File,
+    image: Express.Multer.File,
     folder: string,
   ): Promise<UploadApiResponse | UploadApiErrorResponse> {
     return new Promise((resolve, reject) => {
@@ -35,7 +50,78 @@ export class CloudinaryService implements IGalleryService {
           resolve(result);
         },
       );
-      toStream(file.buffer).pipe(upload);
+      toStream(image.buffer).pipe(upload);
+    });
+  }
+
+  async uploadImageForHomePage(
+    image: Express.Multer.File,
+  ): Promise<UploadApiResponse | UploadApiErrorResponse> {
+    return new Promise((resolve, reject) => {
+      const upload = v2.uploader.upload_stream(
+        { folder: 'Home' },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        },
+      );
+      toStream(image.buffer).pipe(upload);
+    });
+  }
+
+  async getImagesForHomePage(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      v2.api.resources({ type: 'upload', prefix: 'Home' }, (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      });
+    });
+  }
+
+  async getVideoForHomePage(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      v2.api.resources(
+        { type: 'upload', prefix: 'Video', resource_type: 'video' },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        },
+      );
+    });
+  }
+
+  async deleteImageFromHomePage(publicId: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      v2.uploader.destroy(publicId, (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      });
+    });
+  }
+
+  async deleteVideoFromHomePage(publicId: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      v2.uploader.destroy(
+        publicId,
+        { resource_type: 'video' },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        },
+      );
+    });
+  }
+
+  async deleteImage(publicId: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      v2.uploader.destroy(
+        publicId,
+        { resource_type: 'image' },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        },
+      );
     });
   }
 
@@ -66,6 +152,15 @@ export class CloudinaryService implements IGalleryService {
           resolve(result);
         },
       );
+    });
+  }
+
+  async deleteFolder(folder: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      v2.api.delete_folder(`Garage Master/${folder}`, (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      });
     });
   }
 }

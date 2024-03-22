@@ -23,7 +23,7 @@ export class CreateServiceTypeCommandHandler
     const createdServiceType = this.eventPublisher.mergeObjectContext(
       await this.serviceTypeRepository.create(serviceType),
     );
-    createdServiceType.commit();
+
     return createdServiceType;
   }
 }

@@ -1,9 +1,11 @@
 export class ImagePresenter {
   public readonly id: number;
-  public readonly imgUrl: string;
+  public readonly public_id: string;
+  public readonly url: string;
 
-  constructor({ id, imgUrl }: Partial<ImagePresenter>) {
+  constructor({ id, public_id, url }: Partial<ImagePresenter>) {
     this.id = id;
-    this.imgUrl = imgUrl;
+    this.public_id = public_id;
+    this.url = url;
   }
 }

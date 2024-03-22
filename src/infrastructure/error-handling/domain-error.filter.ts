@@ -10,6 +10,14 @@ import { AppointmentAlreadyTakenException } from 'src/domain/appointment/excepti
 import { AppointmentNotFoundException } from 'src/domain/appointment/exceptions/appointment-not-found.exception';
 import { EmailAlreadyTakenException } from 'src/domain/auth/exceptions/email-already-taken.exception';
 import { InvalidCredentialsException } from 'src/domain/auth/exceptions/invalid-credentials.exception';
+import { FolderAlreadyExistsException } from 'src/domain/gallery/exceptions/folder-already-exists.exception';
+import { FolderIsNotEmptyException } from 'src/domain/gallery/exceptions/folder-is-not-empty.exception';
+import { FolderNotFoundException } from 'src/domain/gallery/exceptions/folder-not-found.exceptionts';
+import { ImagesNotUploadedException } from 'src/domain/gallery/exceptions/images-not-uploaded.exception';
+import { InvalidFileTypeException } from 'src/domain/gallery/exceptions/invalid-file-type.exception';
+import { MediaNotFoundException } from 'src/domain/gallery/exceptions/media-not-found.exception';
+import { VideoNotUploadedException } from 'src/domain/gallery/exceptions/video-not-uploaded.exception';
+import { ServiceTypeNotFoundException } from 'src/domain/service-type/exceptions/service-type-not-found.exception';
 
 @Catch(BaseException)
 export class DomainErrorFilter implements ExceptionFilter<BaseException> {
@@ -28,6 +36,30 @@ export class DomainErrorFilter implements ExceptionFilter<BaseException> {
       return this.sendErrorResponse(resp, HttpStatus.CONFLICT, message);
 
     if (exception instanceof AppointmentNotFoundException)
+      return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
+
+    if (exception instanceof InvalidFileTypeException)
+      return this.sendErrorResponse(resp, HttpStatus.BAD_REQUEST, message);
+
+    if (exception instanceof FolderIsNotEmptyException)
+      return this.sendErrorResponse(resp, HttpStatus.BAD_REQUEST, message);
+
+    if (exception instanceof FolderNotFoundException)
+      return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
+
+    if (exception instanceof ServiceTypeNotFoundException)
+      return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
+
+    if (exception instanceof FolderAlreadyExistsException)
+      return this.sendErrorResponse(resp, HttpStatus.CONFLICT, message);
+
+    if (exception instanceof MediaNotFoundException)
+      return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
+
+    if (exception instanceof ImagesNotUploadedException)
+      return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
+
+    if (exception instanceof VideoNotUploadedException)
       return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
   }
 

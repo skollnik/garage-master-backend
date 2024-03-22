@@ -24,11 +24,6 @@ model UserEntity {
   password  String
 }
 
-model ImageEntity {
-  id     Int    @id @default(autoincrement())
-  imgUrl String
-}
-
 model CarEntity {
   id                Int                 @id @default(autoincrement())
   model             String
@@ -55,4 +50,18 @@ model ServiceTypeEntity {
   category          String
   duration          Float
   AppointmentEntity AppointmentEntity[]
+}
+
+model MediaEntity {
+  id       Int           @id @default(autoincrement())
+  publicId String        @unique
+  url      String
+  folderId Int?
+  folder   FolderEntity? @relation(fields: [folderId], references: [id])
+}
+
+model FolderEntity {
+  id    Int           @id @default(autoincrement())
+  name  String        @unique
+  media MediaEntity[]
 }
