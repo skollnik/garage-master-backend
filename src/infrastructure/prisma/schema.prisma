@@ -52,6 +52,12 @@ model ServiceTypeEntity {
   AppointmentEntity AppointmentEntity[]
 }
 
+model DiscountEntity {
+  id       Int     @id @default(autoincrement())
+  text     String
+  isActive Boolean
+}
+
 model MediaEntity {
   id       Int           @id @default(autoincrement())
   publicId String        @unique

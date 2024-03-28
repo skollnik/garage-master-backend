@@ -10,6 +10,7 @@ import { AppointmentAlreadyTakenException } from 'src/domain/appointment/excepti
 import { AppointmentNotFoundException } from 'src/domain/appointment/exceptions/appointment-not-found.exception';
 import { EmailAlreadyTakenException } from 'src/domain/auth/exceptions/email-already-taken.exception';
 import { InvalidCredentialsException } from 'src/domain/auth/exceptions/invalid-credentials.exception';
+import { DiscountNotFoundException } from 'src/domain/discount/exceptions/discount-not-found.exception';
 import { FolderAlreadyExistsException } from 'src/domain/gallery/exceptions/folder-already-exists.exception';
 import { FolderIsNotEmptyException } from 'src/domain/gallery/exceptions/folder-is-not-empty.exception';
 import { FolderNotFoundException } from 'src/domain/gallery/exceptions/folder-not-found.exceptionts';
@@ -38,6 +39,12 @@ export class DomainErrorFilter implements ExceptionFilter<BaseException> {
     if (exception instanceof AppointmentNotFoundException)
       return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
 
+    if (exception instanceof ServiceTypeNotFoundException)
+      return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
+
+    if (exception instanceof DiscountNotFoundException)
+      return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
+
     if (exception instanceof InvalidFileTypeException)
       return this.sendErrorResponse(resp, HttpStatus.BAD_REQUEST, message);
 
@@ -45,9 +52,6 @@ export class DomainErrorFilter implements ExceptionFilter<BaseException> {
       return this.sendErrorResponse(resp, HttpStatus.BAD_REQUEST, message);
 
     if (exception instanceof FolderNotFoundException)
-      return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
-
-    if (exception instanceof ServiceTypeNotFoundException)
       return this.sendErrorResponse(resp, HttpStatus.NOT_FOUND, message);
 
     if (exception instanceof FolderAlreadyExistsException)

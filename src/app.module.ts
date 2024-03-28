@@ -5,6 +5,7 @@ import { ServiceTypeModule } from './infrastructure/service-type/service-type.mo
 import { AppointmentModule } from './infrastructure/appointment/appointment.module';
 import { GalleryModule } from './infrastructure/gallery/gallery.module';
 import { ContactModule } from './infrastructure/contact/contact.module';
+import { DiscountModule } from './infrastructure/discount/discount.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ContactModule } from './infrastructure/contact/contact.module';
     AuthModule,
     ServiceTypeModule,
     AppointmentModule,
+    DiscountModule,
     GalleryModule,
     ContactModule,
   ],
