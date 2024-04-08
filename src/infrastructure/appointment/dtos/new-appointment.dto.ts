@@ -29,8 +29,8 @@ export class NewAppointmentDto {
   email: string;
 
   @IsNotEmpty()
-  @IsDate()
-  startDate: Date;
+  @IsString()
+  startDate: string;
 
   @IsString()
   additionalInfo?: string;

@@ -39,6 +39,7 @@ export class CreateAppointmentCommandHandler
       startDate,
       serviceType,
     );
+
     const isAvailable = await this.appointmentRepository.checkAvailability(
       formattedStartDate,
       formattedEndDate,
@@ -69,10 +70,8 @@ export class CreateAppointmentCommandHandler
     return createdAppointment;
   }
 
-  private formatDates(startDate: Date, serviceType: ServiceType) {
-    const formattedStartDate = moment(startDate, 'YYYY-MM-DD HH:mm:ss')
-      .add(2, 'hour')
-      .toDate();
+  private formatDates(startDate: string, serviceType: ServiceType) {
+    const formattedStartDate = moment.utc(startDate).toDate();
     const endDate = new Date(formattedStartDate);
     const hours = Math.floor(serviceType.duration);
     const minutes = Math.round((serviceType.duration - hours) * 60);

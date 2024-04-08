@@ -9,7 +9,7 @@ export class CreateAppointmentCommand {
     public readonly car: Car,
     public readonly serviceType: ServiceType,
     public readonly email: string,
-    public readonly startDate: Date,
+    public readonly startDate: string,
     public readonly status: AppointmentStatus,
     public readonly additionalInfo?: string,
   ) {}

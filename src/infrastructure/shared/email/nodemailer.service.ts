@@ -64,20 +64,21 @@ export class NodemailerService implements IEmailService {
     email: string,
     serviceType: string,
     additionalInfo: string,
-    date: string,
+    date: Date,
   ) {
+    const formattedDate = date.toLocaleString('sr-RS', { timeZone: 'UTC' });
     this.sendEmail({
       from: email,
       to: this.user,
       subject: 'New appointment',
       html: `<h1>New appointment</h1>
-      <p>First name: ${firstName}</p>
-      <p>Last name: ${lastName}</p>
-      <p>Email: ${email}</p>
-      <p>Car: ${car}</p>
-      <p>Service type: ${serviceType}</p>
-      <p>Additional info: ${additionalInfo}</p>
-      <p>Date: ${date}</p>`,
+        <p>First name: ${firstName}</p>
+        <p>Last name: ${lastName}</p>
+        <p>Email: ${email}</p>
+        <p>Car: ${car}</p>
+        <p>Service type: ${serviceType}</p>
+        <p>Additional info: ${additionalInfo}</p>
+        <p>Date: ${formattedDate}</p>`,
     });
   }
 

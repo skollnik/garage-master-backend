@@ -18,7 +18,7 @@ export class NewAppointmentEventHandler
       appointment.email,
       appointment.serviceType.category,
       appointment.additionalInfo,
-      appointment.startDate.toDateString(),
+      appointment.startDate,
     );
   }
 }

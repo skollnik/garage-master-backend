@@ -13,7 +13,7 @@ export interface IEmailService {
     email: string,
     serviceType: string,
     additionalInfo: string,
-    date: string,
+    date: Date,
   );
   appointmentConfirmedMail(email: string);
   appointmentCanceledMail(email: string);
